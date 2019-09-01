@@ -2,7 +2,6 @@
 All in one hand book for all purpose
 ## CONCEPTS
 ### Object Oriented Principles
-
 #### Four Principles
 | Tables                             | Details          
 | -------------- |:-------------------------------------------------------------------------------------------------------:|
@@ -24,9 +23,22 @@ All in one hand book for all purpose
 Details:
 <a href="https://howtodoinjava.com/best-practices/5-class-design-principles-solid-in-java" target="_blank">class-design-principles-solid-in-java</a>
 
-
+### Coding Practices
+#### Syntax
+* Naming conventions should be consistent (camelCase and variable name should be descriptive enough to indicate it's use )
+* Function parameter should contains mandatory fields first and optional fields afterwards
+* 
+#### Approach
+* Function should handle once specific concerns only (Refactor funtiion creating more functions to fix this)
+* Function parameter should be of type final ( Unless we really need to change the Object being passed for some wired reason ) 
+* Return Empty Collections instead of Null
+#### Documentation
 
 ## SPRING BOOT
+### Best Practices
+* Always externalize properties.
+
+### Quick Implementation
 [Spring JPA Hibernate](https://gist.github.com/atishchoudhury/16c6e7290dcfde065cf359768fc351aa/e91ed6579dc6f0950fce2a3024b99347be418b79#file-readme-md)
 
 ## GIT
