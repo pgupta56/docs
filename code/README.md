@@ -1,0 +1,1 @@
+[!INCLUDE [Best Practices](/coding-best-practices.md)]
