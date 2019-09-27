@@ -12,10 +12,11 @@
 ### Secure Code
 * Refer https://github.com/OWASP/CheatSheetSeries/tree/master/cheatsheets 
 
-## Java
+#### Java
 * Function parameter should be of type final. Unless we really need to change the Object being passed for some wired reason
 * Return Empty Collections instead of Null
 
-## SPRING BOOT
+#### SPRING BOOT
 * Always externalize properties. Use [@ConfigurationProperties](https://www.baeldung.com/configuration-properties-in-spring-boot) for all property injection . No @Value on any Service classes
 * 
+
