@@ -1,1 +1,1 @@
-[OOPs Concepts](/oops-concepts.md)
+[OOPs Concepts](/concepts/oops-concepts.md)
