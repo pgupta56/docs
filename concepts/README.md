@@ -1,1 +1,1 @@
-[!INCLUDE [OOPs Concepts](/oops-concepts.md)]
+[OOPs Concepts](/oops-concepts.md)
