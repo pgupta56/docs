@@ -1,3 +1,10 @@
+---
+layout: default
+title: Quick Refs
+parent: Commands
+has_children: false
+---
+
 #CONCEPT
 #QUICK LINKS
 ##RabbitMQ

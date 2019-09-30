@@ -1,3 +1,10 @@
+---
+layout: default
+title: Cloud Native
+nav_order: 3
+parent: Architecture
+has_children: false
+---
 #Cloud Native
 ##Application
 Designed for Cloud Computing Arcitecture

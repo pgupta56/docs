@@ -1,3 +1,10 @@
+---
+layout: default
+title: Domain Driven Design
+nav_order: 3
+parent: Architecture
+has_children: false
+---
 # Domain Driven Design
 ## Building Objects
 * Entity

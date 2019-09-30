@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Coding Best Practices
-nav_order: 3
+nav_order: 1
 parent: Programming
 has_children: false
 ---

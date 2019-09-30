@@ -1,3 +1,9 @@
+---
+layout: default
+title: Git
+parent: Commands
+has_children: false
+---
 # GIT COMMANDS
 ## Configure
 Configure the author name and email address to be used with your commits.
