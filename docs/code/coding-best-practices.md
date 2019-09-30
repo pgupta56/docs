@@ -1,3 +1,11 @@
+---
+layout: default
+title: Coding Best Practices
+nav_order: 3
+parent: Programming
+has_children: false
+---
+
 # Coding Best Practices
 ### Maintainable Code
 * Write it for other people to read. This means a combination of good names, good comments, and simple code statements.
@@ -18,4 +26,3 @@
 
 #### SPRING BOOT
 * Always externalize properties. Use [@ConfigurationProperties](https://www.baeldung.com/configuration-properties-in-spring-boot) for all property injection . No @Value on any Service classes
-* 
