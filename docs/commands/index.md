@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Dev Ops
-nav_order: 8
+title: Commands
+nav_order: 10
 has_children: true
 has_toc: true
 ---
-# DevOps
+# Commands ChiChi

@@ -8,3 +8,9 @@ aux_links:
     - "//github.com/atishch/handbook"
 
 theme: jekyll-theme-cayman
+
+permalink: pretty
+exclude: ["scripts/", "LICENSE.txt", "codes/", "README.md"]
+
+# Footer content appears at the bottom of every page's main content
+footer_content: "Copyright &copy; 2018-2019 Atish Choudhury."
