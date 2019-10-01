@@ -12,7 +12,8 @@ has_toc: false
 >Docker created a logical isolation of underlying OS Resources like CPU , RAM ,Network and provides Process Isolation , Network Interface , IPC , Filesystem Mounts and Isolation on Kernel   Data Volumets  
 >Container systems usually provide service isolation between containers. As a result, container services such as file systems or network support can have limited resource access.
 ### Application Architecture on Kubernetes
-<img src="assets/k8s/compare-traditional-arch"></img>
+![Architecture Shift](https://github.com/atishch/handbook/blob/master/assets/k8s/compare-traditional-arch.png "Architecture Shift")
+
 ## Core Concepts 
 ### Pods 
 ### Create and Configure Basic Pods
@@ -31,7 +32,6 @@ has_toc: false
 ***Prometheus***
 ***Grafana***
 ### how to perform Rolling updates and Rollbacks
-
 
 ## Debugging in Kubernetes
 ***Commands***
