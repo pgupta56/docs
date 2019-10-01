@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Quick Refs
-parent: Commands
+parent: Quick Help
 has_children: false
 ---
 

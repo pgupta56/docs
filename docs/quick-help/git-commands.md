@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Git
-parent: Commands
+parent: Quick Help
 has_children: false
 ---
 # GIT COMMANDS
