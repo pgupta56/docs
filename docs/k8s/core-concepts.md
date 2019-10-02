@@ -8,24 +8,24 @@ has_children: false
 # Core Concepts
 ### Pods
 
->Pod is a group of containers that are deployed together on the same host. For single process deployment artifact, we can generally replace the word "pod" with "container" and accurately understand the concept.
+>Pod is a group of containers that are deployed together on the same host. For single process deployment artifact, we can generally replace the word "pod" with "container" and accurately understand the concept.Pods operate at one level higher than individual containers. 
 
-Pods operate at one level higher than individual containers. By design, all of the containers in a pod are connected to facilitate intra-pod communication and Shared resources. All container shared CPU, RAM , Network (Same IP but bound to different PORT) , Volumes (Mounts)
-
-
+- Containers in a pod are 
+  - connected to facilitate intra-pod communication and Shared resources.
+  - Shares CPU, RAM , Network (Same IP but bound to different PORT) , Volumes (Mounts)
 - Use `localhost` with co-located container `PORT`
 - it enabled **Adaptor Patter** to suport common abstraction like Monitoring , Logging , Poroxy or Reusable Clients.
 
-***Commands***
+**Commands**
 - View all Pods `kcs get pods` or event try `kcs get pods -o wide`
 - See a pod details  `kcs describe pod/<pod_name>` (Events , Resource alocated , Laster Run status etc.)  
 
-***As we go through we will discuss***
+**As we go through we will discuss**
 - Pods are created via Deployment , StatefulSet so that Self-healing , Auto Scaling and Rollup are handled via K8s
 - Health and Diagnostic check done by K8s. Usage of `livenessProbe` , `readinessProbe` and `startupProbe` 
 - **Advanced** Gracefully stoping of container and enable preStop hook with 30s wait time `--grace-period=30` 
 
-***Tips***
+**Tips**
 - If application takes time on startup configure a [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
 
 ### Create and Configure Basic Pod (Container)
@@ -50,9 +50,9 @@ spec:
       requests:
         memory: "100Mi"
 ```
-### Services – ClusterIP , NodePort , LoadBalancer
+### Services
 >Service is an abstraction (across namespace) which defines a logical set of Pods and a policy by which to access them.
->Service provides Traffic proxying , [Network Address Translation](https://en.wikipedia.org/wiki/Network_address_translation#NAT_and_TCP/UDP) and Name Service via K8s `kube-proxy` and `CoreDNS`
+>Service provides traffic [Proxying](https://kubernetes.io/docs/concepts/services-networking/service/#ips-and-vips) , [Network Address Translation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) and [NameService](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records) via K8s `kube-proxy` and `CoreDNS`
 
 #### ClusterIP 
 >(Default) Exposes the Service on a cluster-internal IP. This makes the Service only reachable from within the cluster via just `{servicename}` or `{servicename}.{namespace}.svc.cluster.local`
@@ -79,7 +79,7 @@ spec:
       targetPort: 9376 #Target Pod's PORT
       nodePort: 30620 #Nodes port from where kube-proxy can forward the traffic
 ```
->Traffic flow to <Any NodeIP of Cluster>:30620 -> my-service:80 -> <Any IP of Container>:9376
+>Traffic flow `<Any NodeIP of Cluster>:30620 -> my-service:80 -> <Any IP of Container>:9376`
 
 #### LoadBalancer
 >Exposes the Service externally using a cloud provider’s load balancer. NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.

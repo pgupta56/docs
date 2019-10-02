@@ -24,13 +24,9 @@ Container systems usually provide service isolation between containers. As a res
 ### LivenessProbes and ReadinessProbes
 ### Container logging
 ### How to monitor applications in Kubernetes
-***Prometheus***
-***Grafana***
+- Prometheus
+- Grafana
 ### how to perform Rolling updates and Rollbacks
-
-## Debugging in Kubernetes
-***Commands***
-`kcs describe pod_name`
 
 ## Advanced Usecases
 ### Multi-Container Pod design patterns 
