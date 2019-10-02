@@ -1,0 +1,100 @@
+---
+layout: default
+title: Core Concepts
+nav_order: 2
+parent: Kubernetes
+has_children: false
+---
+# Core Concepts
+### Pods
+
+>Pod is a group of containers that are deployed together on the same host. For single process deployment artifact, we can generally replace the word "pod" with "container" and accurately understand the concept.
+
+Pods operate at one level higher than individual containers. By design, all of the containers in a pod are connected to facilitate intra-pod communication and Shared resources. All container shared CPU, RAM , Network (Same IP but bound to different PORT) , Volumes (Mounts)
+
+
+- Use `localhost` with co-located container `PORT`
+- it enabled **Adaptor Patter** to suport common abstraction like Monitoring , Logging , Poroxy or Reusable Clients.
+
+***Commands***
+- View all Pods `kcs get pods` or event try `kcs get pods -o wide`
+- See a pod details  `kcs describe pod/<pod_name>` (Events , Resource alocated , Laster Run status etc.)  
+
+***As we go through we will discuss***
+- Pods are created via Deployment , StatefulSet so that Self-healing , Auto Scaling and Rollup are handled via K8s
+- Health and Diagnostic check done by K8s. Usage of `livenessProbe` , `readinessProbe` and `startupProbe` 
+- **Advanced** Gracefully stoping of container and enable preStop hook with 30s wait time `--grace-period=30` 
+
+***Tips***
+- If application takes time on startup configure a [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
+
+### Create and Configure Basic Pod (Container)
+
+```yaml
+apiVersion: v1 #K8s API version (mandatory)
+kind: Pod #K8s object type. (mandatory)   Note: Rather use Deployment and StatefulSet for Production deployment
+metadata:
+  name: example-app #Name of the Pod (mandatory)  This will be displayed via `kcs get pods`
+  labels: #Custom open ended labels/tagging. Note: While defining Service these will be used as selectors 
+    app: example-app
+    owner: digital-marketing
+    tire: backend
+    key1: value1
+spec:
+  containers:
+  - name: example-app-cntr #Name of the Container inside the Pod
+    image: polinux/stress #Docker Image
+    resources: #Resources configuration for Docker Image Container
+      limits:
+        memory: "200Mi"
+      requests:
+        memory: "100Mi"
+```
+### Services – ClusterIP , NodePort , LoadBalancer
+>Service is an abstraction (across namespace) which defines a logical set of Pods and a policy by which to access them.
+>Service provides Traffic proxying , [Network Address Translation](https://en.wikipedia.org/wiki/Network_address_translation#NAT_and_TCP/UDP) and Name Service via K8s `kube-proxy` and `CoreDNS`
+
+#### ClusterIP 
+>(Default) Exposes the Service on a cluster-internal IP. This makes the Service only reachable from within the cluster via just `{servicename}` or `{servicename}.{namespace}.svc.cluster.local`
+- A Service can map any incoming `port` to a `targetPort`. By default and for convenience, the targetPort is set to the same value as the port field.
+
+#### NodePort
+>Exposes the Service on each Node’s IP at a static port (the NodePort). Service can be accessed via `<NodeIP>:<NodePort>` from Outside.
+- **NodePort** is an open port on every node of your cluster
+- Kubernetes transparently routes incoming traffic on the NodePort to your service, even if your application is running on a different node.
+
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service #Name of the service
+spec:
+  type: NodePort #Can be ClusterIp where we don't need nodePort value  
+  selector:
+    app: MyApp  #App names from where the ClusterIPs will be pulled 
+  ports:
+    - protocol: TCP
+      port: 80 #Service Port
+      targetPort: 9376 #Target Pod's PORT
+      nodePort: 30620 #Nodes port from where kube-proxy can forward the traffic
+```
+>Traffic flow to <Any NodeIP of Cluster>:30620 -> my-service:80 -> <Any IP of Container>:9376
+
+#### LoadBalancer
+>Exposes the Service externally using a cloud provider’s load balancer. NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.
+
+>Using a ***LoadBalancer*** service type automatically deploys an external load balancer. This external load balancer is associated with a specific IP address and routes external traffic to a Kubernetes service in your cluster.
+
+- The exact implementation of a LoadBalancer is dependent on your cloud provider. GCP , AWS , Azure and DECC have `LoadBalancer` implementation to support it 
+
+
+#### ExternalName
+>Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record
+
+
+### Configuration using ConfigMaps , Secrets
+### Application’s resource requirements
+### How to use Labels, Selectors, and Annotations
+### Basic understanding of NetworkPolicies
+### PersistentVolumeClaims for storage
