@@ -9,17 +9,20 @@ has_toc: false
 ## What is K8s
 ### Container
 >A Docker container image is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings.
->Docker created a logical isolation of underlying OS Resources like CPU , RAM ,Network and provides Process Isolation , Network Interface , IPC , Filesystem Mounts and Isolation on Kernel   Data Volumets  
->Container systems usually provide service isolation between containers. As a result, container services such as file systems or network support can have limited resource access.
+
+Docker created a logical isolation of underlying OS Resources like CPU , RAM ,Network and provides Process Isolation , Network Interface , IPC , Filesystem Mounts and Isolation on Kernel   Data Volumets  
+
+Container systems usually provide service isolation between containers. As a result, container services such as file systems or network support can have limited resource access.
+
 ### Application Architecture on Kubernetes
-![Architecture Shift](https://github.com/atishch/handbook/blob/master/assets/k8s/compare-traditional-arch.png "Architecture Shift")
+![Architecture Shift](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/compare-traditional-arch.png)
 
 ## Core Concepts 
 ### Pods
 
 >Pod is a group of containers that are deployed together on the same host. For single process deployment artifact, we can generally replace the word "pod" with "container" and accurately understand the concept.
 
->Pods operate at one level higher than individual containers. By design, all of the containers in a pod are connected to facilitate intra-pod communication and Shared resources. All container shared CPU, RAM , Network (Same IP but bound to different PORT) , Volumes (Mounts)
+Pods operate at one level higher than individual containers. By design, all of the containers in a pod are connected to facilitate intra-pod communication and Shared resources. All container shared CPU, RAM , Network (Same IP but bound to different PORT) , Volumes (Mounts)
 
 
 - Use `localhost` with co-located container `PORT`
@@ -36,8 +39,6 @@ has_toc: false
 
 ***Tips***
 - If application takes time on startup configure a [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
-- 
-
 
 ### Create and Configure Basic Pods
 
@@ -45,7 +46,7 @@ has_toc: false
 apiVersion: v1
 kind: Pod
 metadata:
-  name: example-app #Name of the Pod
+  name: example-app #<span class="bg-red-000">Name of the Pod</span>
   labels: #Key Value pair 
     app: example-app
     key1: value1 
