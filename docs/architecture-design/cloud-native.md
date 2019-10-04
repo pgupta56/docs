@@ -7,28 +7,32 @@ has_children: false
 ---
 # Cloud Native
 ## Application
-**Designed for Cloud Computing Arcitecture**
+Designed for Cloud Computing Arcitecture
+
 * Cloud Computing friendly framework to make is Predictable
 * Easily scalable
 * Containerize
-
 * Less effort on Infrastrucutre
 * Scale as needed
 
 ## Cloud Native Architecture
 Microservice Best Practices  https://12factor.net/
+## Microservice Architecture
+* Rediliency
+  * https://blog.risingstack.com/designing-microservices-architecture-for-failure/
+
 
 ## Cloud Native Patterns
-**Distributed Tracing**
-Open Traceing Specification https://opentracing.io/specification/
-Implementations: https://opentracing.io/registry/
+* Distributed Tracing
+  * Open Traceing Specification https://opentracing.io/specification/
+  * Implementations: https://opentracing.io/registry/
 
-**Monitoring Data Collection**
-https://www.fluentd.org/architecture
+* Monitoring Data Collection
+  * https://www.fluentd.org/architecture
 
-**Deligate Access Control**
-Open Policy Framework http://www.openpolicyagent.org/
-Implementations: https://github.com/ory
+* Deligate Access Control
+  * Open Policy Framework http://www.openpolicyagent.org/   
+  * Implementations: https://github.com/ory
 
 ## Others
 #### Cache-Aside
