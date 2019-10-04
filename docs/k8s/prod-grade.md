@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Production Ready App | Kubernetes
+title: Production Ready App
 nav_order: 2
 parent: Kubernetes
 has_children: false

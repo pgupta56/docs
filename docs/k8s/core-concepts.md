@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Core Concepts | Kubernetes
+title: Core Concepts
 nav_order: 1
 parent: Kubernetes
 has_children: false

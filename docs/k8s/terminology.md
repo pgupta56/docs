@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Terminology | Kubernetes
+title: Terminology
 nav_order: 5
 parent: Kubernetes
 has_children: false

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Networking | Kubernetes
+title: Networking
 nav_order: 8
 parent: Kubernetes
 has_children: false

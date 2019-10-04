@@ -7,17 +7,29 @@ has_toc: true
 ---
 
 # Kubernetes
-## What is K8s
-### Container
->A Docker container image is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings.
+>Before we Understand we need to understand how Container (with Docker) works
 
-Docker created a logical isolation of underlying OS Resources like CPU , RAM ,Network and provides Process Isolation , Network Interface , IPC , Filesystem Mounts and Isolation on Kernel   Data Volumets  
+## What is Docker Container
+>Containers are a type of software that can virtually package and isolate applications for deployment. It shared the underlying OS and resources rather than running it's own
 
-Container systems usually provide service isolation between containers. As a result, container services such as file systems or network support can have limited resource access.
+- It created a logical isolation of underlying OS Resources like CPU , RAM ,Network and provides Process Isolation , Network Interface , IPC , Filesystem Mounts and Isolation on Kernel   Data Volumets  
+
+- Containers are Running instance of an Image. An image is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings.
+
+- We should be aware that , It
+  -  Provide service isolation between containers
+  -  Provides consisten Runtime with Low Overhead
+  -  Container have limited resource access
+
+- Read more on Containers on
+  - [Google Article](https://cloud.google.com/containers/)
+  - [TechTarget Blogs](https://searchitoperations.techtarget.com/definition/container-containerization-or-container-based-virtualization)
 
 ### Application Architecture on Kubernetes
-
+>How Application Architecture is comparable to VM
 ![Architecture Shift](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/compare-traditional-arch.png)
+
+- K8s provides Platform resources (Container,Service,Configuration,Volume Mounts,..) as a Service and it can be enabled via **Resource Definition** 
 
 ### Resource Definition
 
