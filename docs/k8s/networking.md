@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Networking Advanced
+title: Networking | Kubernetes
 nav_order: 8
 parent: Kubernetes
 has_children: false

@@ -19,6 +19,3 @@ Configure the author name and email address to be used with your commits.
 Create a new local repository
 
 `git init`
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMDc4NDc4MTJdfQ==
--->

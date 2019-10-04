@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Terminology
-nav_order: 1
+title: Terminology | Kubernetes
+nav_order: 5
 parent: Kubernetes
 has_children: false
 ---
@@ -20,3 +20,6 @@ has_children: false
 
 ## Edge router
 >A router that enforces the firewall policy for your cluster. This could be a gateway managed by a cloud provider or a physical piece of hardware.
+
+## Ingress
+>Rules for routing the Inbound traffic to cluster resources

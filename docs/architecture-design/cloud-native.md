@@ -68,5 +68,5 @@ Implementations: https://github.com/ory
 
 
 
-##References
-https://medium.com/faun/approaching-cloud-native-2903a253b8f9
+## References
+- https://medium.com/faun/approaching-cloud-native-2903a253b8f9

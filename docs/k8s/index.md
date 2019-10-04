@@ -16,19 +16,19 @@ Docker created a logical isolation of underlying OS Resources like CPU , RAM ,Ne
 Container systems usually provide service isolation between containers. As a result, container services such as file systems or network support can have limited resource access.
 
 ### Application Architecture on Kubernetes
+
 ![Architecture Shift](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/compare-traditional-arch.png)
 
+### Resource Definition
 
-
-## Production Grade K8s
-### LivenessProbes and ReadinessProbes
-### Container logging
-### How to monitor applications in Kubernetes
-- Prometheus
-- Grafana
-### how to perform Rolling updates and Rollbacks
-
-## Advanced Usecases
-### Multi-Container Pod design patterns 
-### Using Jobs and CronJobs
-### Inter service communication
+A sample yaml definition file looks as below
+```yaml
+apiVersion: v1 #K8s API version. (mandatory)
+kind: Pod #K8s object type. (mandatory)
+metadata:
+  name: example-app #Name of the Pod.(mandatory) Each resource's unique identifier
+spec: #Detailed specification for Resource kind (mandatory) 
+```
+**Commands**
+- Get all Resources `kcs api-resources`  
+- Read the OpenDocs API /openapi/v2 (e.g. https://k8scluster.vmware.com:6443/openapi/v2)

@@ -1,34 +1,23 @@
 ---
 layout: default
-title: Core Concepts
-nav_order: 2
+title: Core Concepts | Kubernetes
+nav_order: 1
 parent: Kubernetes
 has_children: false
 ---
 # Core Concepts
-### Pods
+## Pods
 
->Pod is a group of containers that are deployed together on the same host. For single process deployment artifact, we can generally replace the word "pod" with "container" and accurately understand the concept.Pods operate at one level higher than individual containers. 
+>Pod is a group of containers that are deployed together on the same host. For single process deployment artifact, we can generally think "pod" as a "container" to accurately understand the concept. Pods operate at one level higher than individual containers. 
 
+- Represents as One unit
+- Not concern with routing
 - Containers in a pod are 
-  - connected to facilitate intra-pod communication and Shared resources.
+  - connected to facilitate intra-pod communication and share resources. `localhost` with co-located container `PORT` can be used to communicate
   - Shares CPU, RAM , Network (Same IP but bound to different PORT) , Volumes (Mounts)
-- Use `localhost` with co-located container `PORT`
 - it enabled **Adaptor Patter** to suport common abstraction like Monitoring , Logging , Poroxy or Reusable Clients.
 
-**Commands**
-- View all Pods `kcs get pods` or event try `kcs get pods -o wide`
-- See a pod details  `kcs describe pod/<pod_name>` (Events , Resource alocated , Laster Run status etc.)  
-
-**As we go through we will discuss**
-- Pods are created via Deployment , StatefulSet so that Self-healing , Auto Scaling and Rollup are handled via K8s
-- Health and Diagnostic check done by K8s. Usage of `livenessProbe` , `readinessProbe` and `startupProbe` 
-- **Advanced** Gracefully stoping of container and enable preStop hook with 30s wait time `--grace-period=30` 
-
-**Tips**
-- If application takes time on startup configure a [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
-
-### Create and Configure Basic Pod (Container)
+### Create a Pod
 
 ```yaml
 apiVersion: v1 #K8s API version (mandatory)
@@ -49,20 +38,24 @@ spec:
         memory: "200Mi"
       requests:
         memory: "100Mi"
+   
 ```
-### Services
+**Commands**
+- View all Pods `kcs get pods` or even try `kcs get pods -o wide`
+- See a pod details  `kcs describe pod/<pod_name>` (Events , Resource alocated , Laster Run status etc.)  
+
+## Services
 >Service is an abstraction (across namespace) which defines a logical set of Pods and a policy by which to access them.
 >Service provides traffic [Proxying](https://kubernetes.io/docs/concepts/services-networking/service/#ips-and-vips) , [Network Address Translation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) and [NameService](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records) via K8s `kube-proxy` and `CoreDNS`
 
-#### ClusterIP 
+### ClusterIP 
 >(Default) Exposes the Service on a cluster-internal IP. This makes the Service only reachable from within the cluster via just `{servicename}` or `{servicename}.{namespace}.svc.cluster.local`
 - A Service can map any incoming `port` to a `targetPort`. By default and for convenience, the targetPort is set to the same value as the port field.
 
-#### NodePort
+### NodePort
 >Exposes the Service on each Node’s IP at a static port (the NodePort). Service can be accessed via `<NodeIP>:<NodePort>` from Outside.
 - **NodePort** is an open port on every node of your cluster
 - Kubernetes transparently routes incoming traffic on the NodePort to your service, even if your application is running on a different node.
-
 
 ```yaml
 apiVersion: v1
@@ -81,7 +74,7 @@ spec:
 ```
 >Traffic flow `<Any NodeIP of Cluster>:30620 -> my-service:80 -> <Any IP of Container>:9376`
 
-#### LoadBalancer
+### LoadBalancer
 >Exposes the Service externally using a cloud provider’s load balancer. NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.
 
 >Using a ***LoadBalancer*** service type automatically deploys an external load balancer. This external load balancer is associated with a specific IP address and routes external traffic to a Kubernetes service in your cluster.
@@ -89,11 +82,24 @@ spec:
 - The exact implementation of a LoadBalancer is dependent on your cloud provider. GCP , AWS , Azure and DECC have `LoadBalancer` implementation to support it 
 
 
-#### ExternalName
+### ExternalName
 >Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record
 
+## Configuration Management
+### ConfigMaps
+### Secrets
 
-### Configuration using ConfigMaps , Secrets
+### Pods in Details
+
+**Tips**
+- If application takes time on startup configure a [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
+
+**As we go through we will discuss**
+- Pods are created via Deployment , StatefulSet so that Self-healing , Auto Scaling and Rollup are handled via K8s
+- Health and Diagnostic check done by K8s. Usage of `livenessProbe` , `readinessProbe` and `startupProbe` 
+- **Advanced** Gracefully stoping of container and enable preStop hook with 30s wait time `--grace-period=30` 
+
+
 ### Application’s resource requirements
 ### How to use Labels, Selectors, and Annotations
 ### Basic understanding of NetworkPolicies
