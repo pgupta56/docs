@@ -7,7 +7,7 @@ has_toc: true
 ---
 
 # Kubernetes
-Before we deep dive into **Kubernetes** we need to understand how Container (with Docker) works
+Before we deep dive into **Kubernetes** we need to understand what is a Container (with Docker) , why we use it.
 
 ## What is Docker Container
 Containers are a type of software that can virtually package and isolate applications for deployment. It shared the underlying OS and resources rather than running it's own
@@ -15,7 +15,7 @@ Containers are a type of software that can virtually package and isolate applica
 - Logical isolation of underlying OS Resources like CPU , RAM ,Network
 - Provides Process Isolation , Network Interface , IPC , Filesystem Mounts (Data volumets) and Isolation on Kernel  
 
-- We should be aware that , It
+- We should be aware that , Container
   -  Provides service isolation between containers (inherently processes and software packages)
   -  Provides consistent Runtime with Low Overhead
   -  Container have limited resource
@@ -30,20 +30,28 @@ Containers are a type of software that can virtually package and isolate applica
 ## Some Mictoservice Architecture Patterns
 It's essential to understand below patterns as K8s has been built to natively support it.
 - ***Scalability*** , Scaling of Process (**Horizontal Scalling**) as needed
-- ***Availability*** , Automatically recover from faliure of service
-- ***Service Discovery*** , How a service discover another service instance , who to call
+- ***Availability*** , Automatically recover from faliure of service/process
+- ***Service Discovery*** , How a service discover another service's instance which is healthy to call
 - ***Reliability*** , Revover from service failures. Enter **Self Healing** , **Health Check** and most importantly  **Automatic Rollouts**
 - ***Observability*** , some aspects are supported nativily namely **Health Check** at least in a Primitive way
-
+- And many more...
+  
 ## Application Architecture on Kubernetes
 How Application Architecture is comparable to VM as well as Netflix based Microservice
+
 - Processes on VMs vs Microservice on K8s
+
+
 ![Architecture Shift](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/compare-traditional-arch.png)
 
-- Microservice on Netflix vs K8s
+- Microservice on Netflix on PCF vs K8s
+
+![Microservice Architecture](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/pcfnetflix-vs-k8s.png)
+
 
 
 - K8s provides Platform resources (Container,Service,Configuration,Volume Mounts,..) as a Service and it can be enabled by calling API and defining **Resource Definition** 
+
 
 ## Resource Definition
 A sample yaml definition file looks as below
@@ -59,9 +67,5 @@ spec: #Detailed specification for Resource kind (mandatory)
 Before we start using K8s we need to have our own **Namespace** on the Cluster
 
 - Namespaces are a way to divide cluster resources between multiple users/teams
-- Each Namespance have allocaed quita on Memory and CPU. Also have certain permission on what K8s Resorces it can use
+- Each Namespance have allocaed quota on Memory and CPU. Also have certain permission on what K8s Resorces it can create/use
 - Resources in namespace can be found by `kubectl api-resources --namespaced=true`
-
-## Commands
-- Get all Resources `kcs api-resources`  
-- Read the OpenDocs API /openapi/v2 (e.g. https://k8scluster.vmware.com:6443/openapi/v2)

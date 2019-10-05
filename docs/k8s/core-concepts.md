@@ -53,6 +53,11 @@ Service is an abstraction (across namespace) which defines a logical set of Pods
 
 Service provides traffic [Proxying](https://kubernetes.io/docs/concepts/services-networking/service/#ips-and-vips) , [Network Address Translation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) and [NameService](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records) via K8s `kube-proxy` and `CoreDNS`
 
+So what we want is to Traffic to flow through the **External LoadBalancer/Internet** to K8s cluster
+
+![Traffic Flow](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/service-high1.png)
+
+
 ### ClusterIP 
 (Default) Exposes the Service on a cluster-internal IP. This makes the Service only reachable from within the cluster via just `{servicename}` or `{servicename}.{namespace}.svc.cluster.local`
 - A Service can map any incoming `port` to a `targetPort`. By default and for convenience, the targetPort is set to the same value as the port field.
@@ -77,7 +82,6 @@ spec:
       targetPort: 9376 #Target Pod's PORT
       nodePort: 30620 #Nodes port from where kube-proxy can forward the traffic
 ```
->Traffic flow `<Any NodeIP of Cluster>:30620 -> my-service:80 -> <Any IP of Container>:9376`
 
 ### LoadBalancer
 Exposes the Service externally using a cloud provider’s load balancer. NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.
@@ -86,6 +90,8 @@ Exposes the Service externally using a cloud provider’s load balancer. NodePor
 
 - The exact implementation of a LoadBalancer is dependent on your cloud provider. GCP , AWS , Azure and DECC have `LoadBalancer` implementation to support it 
 
+
+![Traffic Flow](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/service-flow1.png)
 
 ### ExternalName
 Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record

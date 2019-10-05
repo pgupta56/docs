@@ -20,3 +20,7 @@ spec:
   type: ExternalName
   externalName: my.database.example.com
 ```
+
+## Ingress
+
+![Traffic Flow](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/service-flow-ingress1.png)
