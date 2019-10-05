@@ -39,22 +39,32 @@ It's essential to understand below patterns as K8s has been built to natively su
 ## Application Architecture on Kubernetes
 How Application Architecture is comparable to VM as well as Netflix based Microservice
 
-- Processes on VMs vs Microservice on K8s
+### "Processes on VMs" vs "Microservice on K8s"
 
 
 ![Architecture Shift](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/compare-traditional-arch.png)
 
-- Microservice on Netflix on PCF vs K8s
+### "Microservice on PCF with Netflix OSS" vs "Microservice on K8s"
 
 ![Microservice Architecture](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/pcfnetflix-vs-k8s.png)
 
 
 
-- K8s provides Platform resources (Container,Service,Configuration,Volume Mounts,..) as a Service and it can be enabled by calling API and defining **Resource Definition** 
+- K8s provides Platform resources (Container,Service,Configuration,Volume Mounts,..) as a Service and it can be enabled by calling API and defining **Object Spec** 
+- Benefits of using K8s
+  - Workload Scalability by providing easy Horizontal infrastructure scaling , Auto-scaling
+  - Decoupled microservice architectures by providing Namespace , Service and Pod/Container isolation
+  - Abstraction of Infrastructure by allowing custom **Ingress Controller** and **Load Balancer**
+  - Self Healing Systems
+  - And more... DNS management, resource monitoring, Secrets Management , logging and storage orchestration
 
+## How to provide Object Spec
 
-## Resource Definition
-A sample yaml definition file looks as below
+- Object Specs are described via a yaml file 
+- Each Specs should have apiVersion , type and name along with the desired state Specification
+- Kubernetes takes care of making necessary changes to achieve that desired state
+- An yaml file can be run to create the K8s object via `kubectl apply -f file_name.yaml` 
+- A sample yaml  definition file looks as below
 
 ```yaml
 apiVersion: v1 #K8s API version. (mandatory)
