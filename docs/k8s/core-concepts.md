@@ -23,7 +23,7 @@ Pod is a group of containers that are deployed together on the same host. For si
 apiVersion: v1 #K8s API version (mandatory)
 kind: Pod #K8s object type. (mandatory)   Note: Rather use Deployment and StatefulSet for Production deployment
 metadata:
-  name: example-app #Name of the Pod (mandatory)  This will be displayed via `kcs get pods`
+  name: hello-world #Name of the Pod (mandatory)  This will be displayed via `kcs get pods`
   labels: #Custom open ended labels/tagging. Note: While defining Service these will be used as selectors 
     app: hello-world
     owner: digital-marketing
@@ -48,32 +48,56 @@ spec:
 - K8s select the Node where to run the Pod based on the resources availabilty as defined by above configuration
 - **Memory** are measured in bytes (e.g 2Gi, 512Mi, 1024Ki)
 - **CPU** resources are measured in cpu units and can have fractions upto 0.1 level (e.g. 1 , 0.5 , 0.1)
-  - It's better to define it on millicore. 0.1 CPU = 100m 
+  - It's better to define it based on millicore. 0.1 CPU = 100m 
 - If a Container exceeds 
-  - memory limit, it might be terminated or got into mutiple restart
+  - Memory limit, it might be terminated or go into mutiple Restarts
   - CPU limit , It will not be killed. But it not allowed for extended periods of time and process might starve
-
-### Why Label ? How to use it 
-- Labels are key/value pairs that are attached to objects as part of Object Spec
-- Allowed character are ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.)
-
-We will see how it can be used as **Selector** to easily enable Service for Pods
 
 ### Commands
 - View all Pods `kcs get pods` or even try `kcs get pods -o wide`
 - See a pod details  `kcs describe pods/<pod_name>` (Events , Resource alocated , Laster Run status etc.) - Get last status `kcs get pods/<pod_name> -o go-template="{{range .status.containerStatuses}}{{.lastState.terminated.reason}}{{end}}"`
 
+
+### Why Label ? How to use it 
+- Labels are key/value pairs that are attached to objects as part of Object Spec
+- Allowed character are ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.)
+
+### Selectors, and Annotations
+- The label selector is the core grouping primitive in Kubernetes. Via Label selector client/user can identify a set of objects. 
+- Label selector can be either equality-based and set-based
+- **equality-based**  . Available in type Service , Deployment , ReplicaSet , Job and DeamonSet
+```yaml
+...
+spec:
+  selector:
+    app: hello-world
+... 
+``` 
+- **set-based** . Available in type Deployment , ReplicaSet , Job and DeamonSet
+```yaml
+...
+spec:
+  selector:
+  matchLabels:
+    app: hello-world #Equality based
+  matchExpressions: #Set based
+    - {key: tier, operator: In, values: [cache]}
+    - {key: environment, operator: NotIn, values: [dev]}
+...
+```
+
 ## Services
-Service is an abstraction (across namespace) which defines a logical set of Pods and a policy by which to access them.
+- Service is an abstraction (across namespace) which defines a logical set of Pods and a policy by which to access them.
 
-Service provides traffic [Proxying](https://kubernetes.io/docs/concepts/services-networking/service/#ips-and-vips) , [Network Address Translation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) and [NameService](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records) via K8s `kube-proxy` and `CoreDNS`
+- Service provides traffic [Proxying](https://kubernetes.io/docs/concepts/services-networking/service/#ips-and-vips) , [Network Address Translation](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) and [NameService](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records) via K8s `kube-proxy` and `CoreDNS`
 
-So what we want is to Traffic to flow through the **External LoadBalancer/Internet** to K8s cluster
+- What it enables is to Traffic to flow through the **External LoadBalancer/Internet** to K8s cluster to the Container running the Processes
 
 ![Traffic Flow](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/service-high1.png)
 
 
 ### A Service Spec sample
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -89,9 +113,9 @@ spec:
       targetPort: 9376 #Target Pod's PORT
       nodePort: 30620 #Will discuss this below. Nodes port from where kube-proxy can forward the traffic
 ```
-### Selectors, and Annotations
-- The label selector is the core grouping primitive in Kubernetes. Via Label selector client/user can identify a set of objects. 
-
+- It enabled Traffic proxing from it's own `Service' clusterIP:port` to `Pod clusterIPs:targetPort`
+- This create a DNS entry `hello-world-service` resolving to it's own IP
+- In case it's NodePort it map the any Node(VM) `nodePort` traffic to be forwarded to `Service clusterIP:port` 
 
 ### ClusterIP 
 (Default) Exposes the Service on a cluster-internal IP. This makes the Service only reachable from within the cluster via just `{servicename}` or `{servicename}.{namespace}.svc.cluster.local`
@@ -103,27 +127,39 @@ Exposes the Service on each Node’s IP at a static port (the NodePort). Service
 - Kubernetes transparently routes incoming traffic on the NodePort to your service, even if your application is running on a different node.
 
 
-
 ### LoadBalancer
-Exposes the Service externally using a cloud provider’s load balancer. NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.
+Exposes the Service externally using a cloud provider’s Load Balancer. 
 
->Using a ***LoadBalancer*** service type automatically deploys an external load balancer. This external load balancer is associated with a specific IP address and routes external traffic to a Kubernetes service in your cluster.
-
+- Using a ***LoadBalancer*** service type automatically deploys an external load balancer. This external load balancer is associated with a specific IP address and routes external traffic to a Kubernetes service in your cluster.
 - The exact implementation of a LoadBalancer is dependent on your cloud provider. GCP , AWS , Azure and DECC have `LoadBalancer` implementation to support it 
-
+- K8s automatically create NodePort and ClusterIP Services, to which the external load balancer routes the traffic
 
 ![Traffic Flow](https://raw.githubusercontent.com/atishch/handbook/master/assets/k8s/service-flow1.png)
 
 ### ExternalName
 Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record
+- This is needed to enable a thirdparty site as K8s service
+- It's enabled by creating a CNAME `common-db-service` as `my.database.example.com` , rather than Proxing
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: common-db-service
+  namespace: prod
+spec:
+  type: ExternalName
+  externalName: my.database.example.com
+```
 
 ## Configuration Management
 ### ConfigMaps
 ### Secrets
 
+
 ## Pods in Details
 
 **Tips**
+
 - If application takes time on startup configure a [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
 
 **As we go through we will discuss**
