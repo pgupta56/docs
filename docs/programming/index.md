@@ -1,8 +1,7 @@
 ---
 layout: default
-title: Programming Concepts
+title: Programming
 nav_order: 2
 has_children: true
 has_toc: true
 ---
-# Programming Concepts
