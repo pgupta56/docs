@@ -18,5 +18,6 @@ has_children: false
 ### how to perform Rolling updates and Rollbacks
 
 ## Advance Use Cases
+### Basic understanding of NetworkPolicies
 ### Multi-Container Pod design patterns 
 ### Using Jobs and CronJobs

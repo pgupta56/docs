@@ -61,6 +61,16 @@ spec:
 ### Label , Selectors, and Annotations
 - ***Labels*** are key/value pairs that are attached to objects as part of Object Spec
 - Allowed character are ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.)
+
+```yaml
+apiVersion: ..
+kind: ..
+metadata:
+  name: ..
+  labels: 
+    app: hello-world
+    owner: digital-marketing
+```
 - The ***Label Selector*** is the core grouping primitive in Kubernetes. Via Label selector client/user can identify a set of objects. 
 - Label selector can be either equality-based and set-based
 - **equality-based**  . Available in type Service , Deployment , ReplicaSet , Job and DeamonSet
@@ -83,6 +93,20 @@ spec:
     - {key: tier, operator: In, values: [backend]}
     - {key: env, operator: NotIn, values: [dev]}
 ...
+```
+- ***Annotations*** are key/value pair similar to Labels , but not used by k8s.
+- There are usufull by clients such as tools , libraries and thirdparty integration can retrieve this metadata. 
+- For example **Load Balancer** using VMWare DECC onNSX Edge use beloe
+```yaml
+apiVersion: ...
+kind: ...
+metadata:
+  name: ...
+  annotations:
+    service.beta.kubernetes.io/decc-load-balancer-https-backend-ports: "443"
+    service.beta.kubernetes.io/decc-load-balancer-https-redirection-ports: "80:443"
+spec:
+  ...
 ```
 
 ## Services
@@ -166,6 +190,7 @@ data:
   ...
 ```
 ### How to use ComfigMap/Secrets 
+
 Define a container environment variable with data from a single ConfigMap/Secret
 
 ```yaml
@@ -208,5 +233,4 @@ spec:
 
 ```
 
-## Basic understanding of NetworkPolicies
-## PersistentVolumeClaims for storage
+## Voluments and PersistentVolumeClaims for storage
