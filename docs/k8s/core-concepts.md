@@ -23,7 +23,7 @@ Pod is a group of containers that are deployed together on the same host. For si
 apiVersion: v1 #K8s API version (mandatory)
 kind: Pod #K8s object type. (mandatory)   Note: Rather use Deployment and StatefulSet for Production deployment
 metadata:
-  name: hello-world #Name of the Pod (mandatory)  This will be displayed via `kcs get pods`
+  name: hello-world #Name of the Pod (mandatory)  This will be displayed via `kubectl get pods`
   labels: #Custom open ended labels/tagging. Note: While defining Service these will be used as selectors 
     app: hello-world
     owner: digital-marketing
@@ -54,8 +54,8 @@ spec:
   - CPU limit , It will not be killed. But it not allowed for extended periods of time and process might starve
 
 ### Commands
-- View all Pods `kcs get pods` or even try `kcs get pods -o wide`
-- See a pod details  `kcs describe pods/<pod_name>` (Events , Resource alocated , Laster Run status etc.) - Get last status `kcs get pods/<pod_name> -o go-template="{{range .status.containerStatuses}}{{.lastState.terminated.reason}}{{end}}"`
+- View all Pods `kubectl get pods` or even try `kckubectl get pods -o wide`
+- See a pod details  `kubectl describe pods/<pod_name>` (Events , Resource alocated , Laster Run status etc.) - Get last status `kubectl get pods/<pod_name> -o go-template="{{range .status.containerStatuses}}{{.lastState.terminated.reason}}{{end}}"`
 
 
 ### Label , Selectors, and Annotations
@@ -73,7 +73,9 @@ metadata:
 ```
 - The ***Label Selector*** is the core grouping primitive in Kubernetes. Via Label selector client/user can identify a set of objects. 
 - Label selector can be either equality-based and set-based
-- **equality-based**  . Available in type Service , Deployment , ReplicaSet , Job and DeamonSet
+
+>**equality-based**  . Available in type Service , Deployment , ReplicaSet , Job and DeamonSet
+
 ```yaml
 ...
 spec:
@@ -82,7 +84,8 @@ spec:
 ... 
 ``` 
 
-- **set-based** . Available in type Deployment , ReplicaSet , Job and DeamonSet
+>**set-based** . Available in type Deployment , ReplicaSet , Job and DeamonSet
+
 ```yaml
 ...
 spec:
