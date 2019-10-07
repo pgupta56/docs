@@ -43,7 +43,7 @@ spec:
    
 ```
 ### Application’s resource requirements
-- CPU and memory are collectively referred to as compute resources. 
+- CPU and Memory are collectively referred to as compute resources. 
 - Each Container of a Pod can specify one or more resources configuration for `requests` and `limit`
 - K8s select the Node where to run the Pod based on the resources availabilty as defined by above configuration
 - **Memory** are measured in bytes (e.g 2Gi, 512Mi, 1024Ki)
@@ -58,12 +58,10 @@ spec:
 - See a pod details  `kcs describe pods/<pod_name>` (Events , Resource alocated , Laster Run status etc.) - Get last status `kcs get pods/<pod_name> -o go-template="{{range .status.containerStatuses}}{{.lastState.terminated.reason}}{{end}}"`
 
 
-### Why Label ? How to use it 
-- Labels are key/value pairs that are attached to objects as part of Object Spec
+### Label , Selectors, and Annotations
+- ***Labels*** are key/value pairs that are attached to objects as part of Object Spec
 - Allowed character are ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.)
-
-### Selectors, and Annotations
-- The label selector is the core grouping primitive in Kubernetes. Via Label selector client/user can identify a set of objects. 
+- The ***Label Selector*** is the core grouping primitive in Kubernetes. Via Label selector client/user can identify a set of objects. 
 - Label selector can be either equality-based and set-based
 - **equality-based**  . Available in type Service , Deployment , ReplicaSet , Job and DeamonSet
 ```yaml
@@ -73,6 +71,7 @@ spec:
     app: hello-world
 ... 
 ``` 
+
 - **set-based** . Available in type Deployment , ReplicaSet , Job and DeamonSet
 ```yaml
 ...
@@ -81,8 +80,8 @@ spec:
   matchLabels:
     app: hello-world #Equality based
   matchExpressions: #Set based
-    - {key: tier, operator: In, values: [cache]}
-    - {key: environment, operator: NotIn, values: [dev]}
+    - {key: tier, operator: In, values: [backend]}
+    - {key: env, operator: NotIn, values: [dev]}
 ...
 ```
 
@@ -113,9 +112,9 @@ spec:
       targetPort: 9376 #Target Pod's PORT
       nodePort: 30620 #Will discuss this below. Nodes port from where kube-proxy can forward the traffic
 ```
-- It enabled Traffic proxing from it's own `Service' clusterIP:port` to `Pod clusterIPs:targetPort`
-- This create a DNS entry `hello-world-service` resolving to it's own IP
-- In case it's NodePort it map the any Node(VM) `nodePort` traffic to be forwarded to `Service clusterIP:port` 
+- It enables Traffic proxing from it's own `Service' clusterIP:port` to `Pod clusterIPs:targetPort`
+- This create a DNS entry `hello-world-service` resolving to it's own `Service' clusterIP`
+- In case it's NodePort it enabled Traffic from any Node(VM)'s `nodePort` traffic to be forwarded to `Service clusterIP:port` 
 
 ### ClusterIP 
 (Default) Exposes the Service on a cluster-internal IP. This makes the Service only reachable from within the cluster via just `{servicename}` or `{servicename}.{namespace}.svc.cluster.local`
@@ -125,7 +124,6 @@ spec:
 Exposes the Service on each Node’s IP at a static port (the NodePort). Service can be accessed via `<NodeIP>:<NodePort>` from Outside.
 - **NodePort** is an open port on every node of your cluster
 - Kubernetes transparently routes incoming traffic on the NodePort to your service, even if your application is running on a different node.
-
 
 ### LoadBalancer
 Exposes the Service externally using a cloud provider’s Load Balancer. 
@@ -151,22 +149,64 @@ spec:
   externalName: my.database.example.com
 ```
 
-## Configuration Management
-### ConfigMaps
-### Secrets
+## Configuration Management (ConfigMaps and Secrets)
+- K8s provides ConfigMaps and Secrets to store environment ewlated Properties as key vlaue pair
+- It has **ConfigMaps** and **Secrets** which can be created using `yaml` definition. 
+  - Secrets values are obfuscated with a Base64 encoding
+- Here is how to define a  ConfigMap or Secrets
+```yaml
+kind: ConfigMap # can be Secrets
+apiVersion: v1
+metadata:
+  name: hello-world-cm # Secrets name would be  hello-world-secrets
+  labels:
+    app: hello-world
+data: 
+  username: admin #In ccase it's Secrets value will be YWRtaW4= (Base64 of admin is YWRtaW4=)
+  ...
+```
+### How to use ComfigMap/Secrets 
+Define a container environment variable with data from a single ConfigMap/Secret
 
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec:
+  containers:
+  - name: hello-world-cntr
+    ...
+    env:
+    - name: USERNAME
+      valueFrom:
+        configMapKeyRef: # For Secrets use secretKeyRef
+          name: hello-world-cm # Can be hello-world-secrets
+          key: username
+    ...
+```
 
-## Pods in Details
+Mount as a Volume and read from it
 
-**Tips**
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec:
+  containers:
+  - name: hello-world-cntr
+    ...
+    command: [ "/bin/sh", "-c", "ls /etc/config/" ]
+    volumeMounts:
+      - name: config-volume
+        mountPath: /etc/config
+  volumes:
+    - name: config-volume
+      configMap:
+        name: hello-world-cm
 
-- If application takes time on startup configure a [startupProbe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-startup-probes)
+```
 
-**As we go through we will discuss**
-- Pods are created via Deployment , StatefulSet so that Self-healing , Auto Scaling and Rollup are handled via K8s
-- Health and Diagnostic check done by K8s. Usage of `livenessProbe` , `readinessProbe` and `startupProbe` 
-- **Advanced** Gracefully stoping of container and enable preStop hook with 30s wait time `--grace-period=30` 
-
-
-### Basic understanding of NetworkPolicies
-### PersistentVolumeClaims for storage
+## Basic understanding of NetworkPolicies
+## PersistentVolumeClaims for storage

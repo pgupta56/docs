@@ -31,8 +31,9 @@ Containers are a type of software that can virtually package and isolate applica
 It's essential to understand below patterns as K8s has been built to natively support it.
 - ***Scalability*** , Scaling of Process (**Horizontal Scalling**) as needed
 - ***Availability*** , Automatically recover from faliure of service/process
-- ***Service Discovery*** , How a service discover another service's instance which is healthy to call
-- ***Reliability*** , Revover from service failures. Enter **Self Healing** , **Health Check** and most importantly  **Automatic Rollouts**
+- ***Service Discovery*** , How a service discover another service's instance which is healthy
+- ***Reliability*** , Revover from service failures and is enabled by **Health Check** , **Self Healing** and most importantly  **Automatic Rollouts**
+- ***Secret and configuration management*** , Drive all the changes and properties as Cnfiguration code
 - ***Observability*** , some aspects are supported nativily namely **Health Check** at least in a Primitive way
 - And many more...
   
