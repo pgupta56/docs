@@ -6,6 +6,19 @@ parent: Architecture
 has_children: false
 ---
 # Domain Driven Design
+## Steps 1
+- Analyze domain
+- Defined bounded contexts
+- Define entities, aggregates, and services
+- Identify microservices
+
+## Steps 2
+- Building Domain Knowledge
+- The Ubiquitous Language
+- Model Driven Design
+- Refactoring Toward Deeper Insight
+- Preserving Model Integrity
+
 ## Building Objects
 * Entity
 * Value Object
@@ -29,4 +42,7 @@ has_children: false
 * Define Event classes from Domain 
 * Treat Event as first class citizene. Model evenet fisrt 
 * Persist Event NOT Current State
-* 
+
+
+## Reference 
+https://medium.com/design-and-tech-co/implementing-domain-driven-design-for-microservice-architecture-26eb0333d72e

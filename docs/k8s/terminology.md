@@ -39,3 +39,5 @@ A worker machine in Kubernetes, part of a cluster.
 
 ## Ingress
 >Rules for routing the Inbound traffic to cluster resources
+
+# Kubernetes API primitives
