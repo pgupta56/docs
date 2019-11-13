@@ -35,8 +35,8 @@ has_children: false
 
 ### Levels
 **Level 0**
-- System as a Block Box process highlighting 
+- Shows ***Boundry*** of the System
 - It's called `Context Diagram`
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU5MjUyMTk5MV19
+eyJoaXN0b3J5IjpbMTIwMzYxMjg0MCwtNTkyNTIxOTkxXX0=
 -->
