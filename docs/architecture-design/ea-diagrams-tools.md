@@ -34,6 +34,9 @@ has_children: false
 - All processes in a DFD go to another process or a data store.
 
 ### Levels
-***Level 0***
+**Level 0**
 - System as a Block Box process highlighting 
 - It's called `Context Diagram`
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTU5MjUyMTk5MV19
+-->
