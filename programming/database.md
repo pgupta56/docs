@@ -42,6 +42,17 @@ END CATCH;
 
 > Sources
 - [InterviewBit](https://www.interviewbit.com/sql-server-interview-questions/)
+
+## SQL
+***Avarage with Case***
+```sql
+SELECT service_id AS service, 
+       AVG(case when HOUR(time) BETWEEN 18 AND 23 then value_to_count else null end) AS primetime,
+       AVG(case when HOUR(time) BETWEEN 06 AND 18 then value_to_count else null end) AS other_time_interval_1
+FROM services 
+GROUP BY service_id
+```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA5NjYzODYyNywtMjc4NzgwNjI4XX0=
+eyJoaXN0b3J5IjpbNTYyNjQzNDA0LDEwOTY2Mzg2MjcsLTI3OD
+c4MDYyOF19
 -->
