@@ -5,7 +5,7 @@ nav_order: 7
 parent: Programming
 has_children: false
 ---
-# Relational Database 
+# Relational Database Management System
 ## Concepts
 ### Index
 | Clustered Index | Non-Clustered Index |
@@ -21,5 +21,5 @@ has_children: false
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTYyODE5MDIzMF19
+eyJoaXN0b3J5IjpbLTI3ODc4MDYyOF19
 -->
