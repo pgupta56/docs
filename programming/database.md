@@ -54,7 +54,7 @@ GROUP BY service_id
 ```
 
 ***Sum with Case***
-```
+```sql
 SELECT Q.QuotationId
     , C.ClientName
     , P.ProductName
@@ -70,6 +70,6 @@ GROUP BY Q.QuotationId
     , P.ProductName
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkwMTA5MTk4NywxMDk2NjM4NjI3LC0yNz
+eyJoaXN0b3J5IjpbMjA4Mjc1MDcxMywxMDk2NjM4NjI3LC0yNz
 g3ODA2MjhdfQ==
 -->
