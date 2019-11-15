@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Database
+title: RDBMS
 nav_order: 7
 parent: Programming
 has_children: false
 ---
-# Database
+# Relational Database 
 ## Concepts
 ### Index
 | Clustered Index | Non-Clustered Index |
@@ -17,8 +17,9 @@ has_children: false
 | It is faster than the non-clustered index. | It is slower than the clustered index in terms of SELECT queries. |
 | Updation and Insertion are slow as the sorted order has to be maintained (can be faster when insertion always happens at the last, e.g.: Index on ID col). | Updation and Insertion are slow as the sorted order has to be maintained. |
 
-> 
+> Source [InterviewBit](https://www.interviewbit.com/sql-server-interview-questions/)
+
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTk0OTY1OTQ3OV19
+eyJoaXN0b3J5IjpbMTYyODE5MDIzMF19
 -->
