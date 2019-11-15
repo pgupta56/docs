@@ -17,9 +17,31 @@ has_children: false
 | It is faster than the non-clustered index. | It is slower than the clustered index in terms of SELECT queries. |
 | Updation and Insertion are slow as the sorted order has to be maintained (can be faster when insertion always happens at the last, e.g.: Index on ID col). | Updation and Insertion are slow as the sorted order has to be maintained. |
 
-> Source [InterviewBit](https://www.interviewbit.com/sql-server-interview-questions/)
+### Try Catch
+```sql
+BEGIN TRY
+	--divide-by-zero error
+    SELECT 5 / 0 AS Error;
+END TRY
+BEGIN CATCH
+    SELECT
+        ERROR_NUMBER() AS ErrorNumber,
+        ERROR_STATE() AS ErrorState,
+        ERROR_SEVERITY() AS ErrorSeverity,
+        ERROR_PROCEDURE() AS ErrorProcedure,
+        ERROR_LINE() AS ErrorLine,
+        ERROR_MESSAGE() AS ErrorMessage;
+END CATCH;
+```
+-   **ERROR_NUMBER():** As the name says, it returns the error number.
+-   **ERROR_STATE():** It returns the state number of the error.
+-   **ERROR_SEVERITY():** This function returns the severity value of the error.
+-   **ERROR_PROCEDURE():** It returns the name of the stored procedure or function in which the error has occurred.
+-   **ERROR_LINE():** Returns the line number at which the error has occurred.
+-   **ERROR_MESSAGE():** Returns the message about the error.
 
-
+> Sources
+- [InterviewBit](https://www.interviewbit.com/sql-server-interview-questions/)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI3ODc4MDYyOF19
+eyJoaXN0b3J5IjpbMTA5NjYzODYyNywtMjc4NzgwNjI4XX0=
 -->
