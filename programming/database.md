@@ -52,7 +52,24 @@ SELECT service_id AS service,
 FROM services 
 GROUP BY service_id
 ```
+
+***Sum with Case***
+```
+SELECT Q.QuotationId
+    , C.ClientName
+    , P.ProductName
+    , Quantity2015 = SUM(CASE WHEN S.[Year] = 2015 THEN S.Quantity ELSE 0 END)
+    , Quantity2016 = SUM(CASE WHEN S.[Year] = 2016 THEN S.Quantity ELSE 0 END)
+FROM Quotation AS Q
+    INNER JOIN Client AS C ON C.ClientID = Q.ClientID
+    INNER JOIN QuotationDetail AS QD ON QD.QuotationID = Q.QuotationID 
+    INNER JOIN Product AS P ON P.ProductID = QD.ProductID
+    INNER JOIN Sales AS S ON S.ProductID = QD.ProductID AND S.ClientID = Q.ClientID 
+GROUP BY Q.QuotationId
+    , C.ClientName
+    , P.ProductName
+```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTYyNjQzNDA0LDEwOTY2Mzg2MjcsLTI3OD
-c4MDYyOF19
+eyJoaXN0b3J5IjpbLTkwMTA5MTk4NywxMDk2NjM4NjI3LC0yNz
+g3ODA2MjhdfQ==
 -->
