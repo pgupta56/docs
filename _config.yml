@@ -7,7 +7,7 @@ aux_links:
   "Fork Contribute":
     - "//github.com/atishch/handbook"
 
-theme: jekyll-theme-architect
+theme: jekyll-theme-minimal
 
 permalink: pretty
 exclude: ["scripts/", "LICENSE.txt", "codes/", "README.md" , "/assets" , "/docs-stg" ]
