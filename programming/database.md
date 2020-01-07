@@ -44,32 +44,49 @@ END CATCH;
 - [InterviewBit](https://www.interviewbit.com/sql-server-interview-questions/)
 
 ## SQL
-***Avarage with Case***
-```sql
-SELECT service_id AS service, 
-       AVG(case when HOUR(time) BETWEEN 18 AND 23 then value_to_count else null end) AS primetime,
-       AVG(case when HOUR(time) BETWEEN 06 AND 18 then value_to_count else null end) AS other_time_interval_1
-FROM services 
-GROUP BY service_id
-```
+***Where & Having Clause***
 
-***Sum with Case***
+> name of those movies where one or more actors acted in two or more movies.
 ```sql
-SELECT Q.QuotationId
-    , C.ClientName
-    , P.ProductName
-    , Quantity2015 = SUM(CASE WHEN S.[Year] = 2015 THEN S.Quantity ELSE 0 END)
-    , Quantity2016 = SUM(CASE WHEN S.[Year] = 2016 THEN S.Quantity ELSE 0 END)
-FROM Quotation AS Q
-    INNER JOIN Client AS C ON C.ClientID = Q.ClientID
-    INNER JOIN QuotationDetail AS QD ON QD.QuotationID = Q.QuotationID 
-    INNER JOIN Product AS P ON P.ProductID = QD.ProductID
-    INNER JOIN Sales AS S ON S.ProductID = QD.ProductID AND S.ClientID = Q.ClientID 
-GROUP BY Q.QuotationId
-    , C.ClientName
-    , P.ProductName
+SELECT m.movie_title FROM movies m , movies_cast mc 
+WHERE m.movie_id = mc.movie_id
+AND mc.actor_id in
+(
+SELECT actor_id FROM movies_cast GROUP BY actor_id HAVING COUNT(movie_id) > 1
+)
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA4Mjc1MDcxMywxMDk2NjM4NjI3LC0yNz
-g3ODA2MjhdfQ==
--->
+***SQL JOINs***
+- (INNER) JOIN: Returns records that have matching values in both tables
+- LEFT (OUTER) JOIN: Returns all records from the left table, and the matched records from the right table
+- RIGHT (OUTER) JOIN: Returns all records from the right table, and the matched records from the left table
+- FULL (OUTER) JOIN: Returns all records when there is a match in either left or right table
+[Joins](https://i.imgur.com/k0iSwEi.png)
+
+***Case with Avarage , Sum***
+
+```sql
+
+#Necessary Setup
+CREATE TABLE t_ledger (
+	name varchar(256) not null,
+    value int not null
+);
+
+INSERT INTO t_ledger values ('Atish' , -10) , ('Atish' , 30), ('Atish' , -20),('Atish' , 110);
+INSERT INTO t_ledger values ('Priyanka' , -20) , ('Priyanka' , 10), ('Priyanka' , -10),('Priyanka' , 200);
+
+#SQL
+##Sum of Positive and Negetive balance in dirrefent columns 
+SELECT name , 
+SUM(CASE WHEN value >= 0 THEN value ELSE 0 END) AS 'balance_pos',
+ABS(SUM(CASE WHEN value < 0 THEN value ELSE 0 END)) AS 'balance_neg'
+FROM t_ledger
+GROUP BY name; 
+
+##Status where Avarage of Balance is high
+SELECT name ,
+CASE WHEN  avg(value) < 30 THEN 'Low' ELSE 'High' END AS 'Status'
+FROM t_ledger
+GROUP BY name
+
+```
